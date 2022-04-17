@@ -64,7 +64,7 @@ try:
                 config.write("\n")
             if hostname_root_user:
                 config.write("\n")
-                config.write("Host " + hostname_root_user + "\n" + "Hostname " + machine_ip_address + "\n" + ssh_port_number + "\n" + "User " + "root" + "\n")
+                config.write("Host " + hostname_root_user + "\n" + "Hostname " + machine_ip_address + "\n" + "Port " + ssh_port_number + "\n" + "User " + "root" + "\n")
                 config.write("\n")   
             if ssh_copy_id_user:
                     os.system("ssh-copy-id " + machine_regular_user + "@" + machine_ip_address)
