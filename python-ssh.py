@@ -10,7 +10,7 @@ filename = ".ssh/config"
 
 if os.path.exists(ssh_id):
     print("You have the ssh keys stored in:" )
-    os.system("ls -al /home/$USER/.ssh | grep rsa")
+    os.system("ls -al /root/.ssh | grep rsa")
 else:
     print ("You don't have the RSA ID file, please create a new one\n")
     os.system("ssh-keygen -t rsa")
@@ -42,13 +42,18 @@ os.system("nmap -v " + ipaddress_for_machines + "/24" + "| grep " + " 'port 22'\
 
 try:
     while True:
+            print ("\n")
+            print ("Configurations for the regualr user \n")
             hostname_regular_user = input("Please insert machine name for the regualr user: ")
-            hostname_root_user = input("Please insert the name of the machine for the root user:")
+            machine_regular_user = input("Please insert the regualr machine username: " )
             machine_ip_address = input("Please insert the Hostname of the machine or IP Address: ")
             ssh_port_number = input("Please insert The Port Number. You can Skip with Enter: ")
-            machine_regular_user = input("Please insert the regualr machine username: " )
-            ssh_copy_id_user = input("Copying the ssh ID to the user's machine. Do you want to continue (y) ")
-            ssh_copy_id_root = input("Copying the ssh ID to root. Do you want to continue (y):")
+            ssh_copy_id_user = input("Copying the ssh ID to the user's machine. Do you want to continue (y): ")
+            print("Proceeding with the Root user configurations \n")
+            hostname_root_user = input("Please insert the name of the machine for the root user:")
+            ssh_port_number_root = input("Please insert The Port Number for the Root. You can Skip with Enter: ")
+            ssh_copy_id_root = input("Copying the ssh ID to root. Do you want to continue (y): ")
+            print ("\n")
             if hostname_regular_user:
                 config.write("Host " + hostname_regular_user)
                 config.write("\n")
@@ -62,16 +67,24 @@ try:
                 config.write("User " + machine_regular_user)
                 config.write("\n")
                 config.write("\n")
-            if hostname_root_user:
-                config.write("\n")
-                config.write("Host " + hostname_root_user + "\n" + "Hostname " + machine_ip_address + "\n" + "Port " + ssh_port_number + "\n" + "User " + "root" + "\n")
-                config.write("\n")   
             if ssh_copy_id_user:
-                    os.system("ssh-copy-id " + machine_regular_user + "@" + machine_ip_address)
+                  os.system("ssh-copy-id " + machine_regular_user + "@" + machine_ip_address)
+            if hostname_root_user:
+                config.write("Host " + hostname_root_user)
+                config.write("\n")
+            if machine_ip_address:
+                config.write("Hostname " + machine_ip_address)
+                config.write("\n")
+            if ssh_port_number_root: 
+                config.write("Port " + ssh_port_number_root)
+                config.write("\n")
+            if machine_regular_user:
+                config.write("User " + "root")
+                config.write("\n")
+                config.write("\n")
             if ssh_copy_id_root:
                     os.system("ssh -t " + machine_regular_user + "@" + machine_ip_address  + " " + " " " 'sudo cp --parents .ssh/authorized_keys /root/' ")    
-            print ("Finished and starting with the new machine")
-            print ("\n")
+            print ("Finished and starting with the new machine \n")
             if hostname_regular_user != machine_regular_user:
                 config.write("\n")
                 config.write("\n")
