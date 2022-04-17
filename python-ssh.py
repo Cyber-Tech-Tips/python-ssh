@@ -10,7 +10,7 @@ filename = ".ssh/config"
 
 if os.path.exists(ssh_id):
     print("You have the ssh keys stored in:" )
-    os.system("ls -al /root/.ssh | grep rsa")
+    os.system("ls -al /home/$USER/.ssh | grep rsa")
 else:
     print ("You don't have the RSA ID file, please create a new one\n")
     os.system("ssh-keygen -t rsa")
